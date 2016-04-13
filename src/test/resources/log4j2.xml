@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- status表示log4j自身初始化时的日志级别 -->
+<Configuration status="warn" name="commonConfig"
+	monitorInterval="60">
+	<Properties>
+		<Property name="filename">target/test.log</Property>
+	</Properties>
+	<Filter type="ThresholdFilter" level="trace" />
+
+	<Appenders>
+		<Console name="STDOUT">
+			<PatternLayout
+				Pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %equals{[%marker]}{[]}{} [%t] - %c : %m%n">
+			</PatternLayout>
+		</Console>
+		<!-- $$的意思是可根据运行时的值取值 -->
+		<RollingRandomAccessFile name="rollingRandomAccessFile"
+			fileName="logs/app.log" filePattern="logs/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log"
+			append="true" immediateFlush="false">
+			<PatternLayout
+				Pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p %equals{[%marker]}{[]}{} [%t] - %c : %m%n">
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="250 MB" />
+			</Policies>
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<!-- com.dtc的loggerConfig会继承Root LoggerConfig，所以com.dtc及其子LoggerConfig都会往rollingRandomAccessFile以及STDOUT输出日志 -->
+		<Logger name="com.dtc" level="debug">
+			<AppenderRef ref="rollingRandomAccessFile" />
+		</Logger>
+		<Root level="trace">
+			<AppenderRef ref="STDOUT" />
+		</Root>
+	</Loggers>
+
+</Configuration>
