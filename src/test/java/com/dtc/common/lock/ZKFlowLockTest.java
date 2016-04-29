@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.dtc.common.lock;
 
 import java.util.concurrent.TimeUnit;
@@ -16,7 +13,8 @@ import com.dtc.common.exception.LockError;
 import com.dtc.common.exception.UnLockError;
 
 /**
- * @category @author tim
+ * @category 
+ * @author tim
  *
  */
 @Test(groups = { "common", "lock" })
