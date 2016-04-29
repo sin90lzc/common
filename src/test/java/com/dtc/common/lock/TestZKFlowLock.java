@@ -12,13 +12,8 @@ import org.testng.annotations.Test;
 import com.dtc.common.exception.LockError;
 import com.dtc.common.exception.UnLockError;
 
-/**
- * @category 
- * @author tim
- *
- */
 @Test(groups = { "common", "lock" })
-public class ZKFlowLockTest {
+public class TestZKFlowLock {
 
 	private static final Logger logger = LogManager.getLogger();
 	
@@ -33,6 +28,7 @@ public class ZKFlowLockTest {
 		logger.debug("getLock current Thread name:{}",Thread.currentThread().getName());
 		lock.set(new ZKFlowLock("lockTest"));
 	}
+	
 	@Test(threadPoolSize = 1000,invocationCount=1000)
 	public void lockTest() throws LockError, UnLockError, InterruptedException {
 		logger.debug("lockTest current Thread name:{},Thread ID:{}",Thread.currentThread().getName(),Thread.currentThread().getId());
@@ -46,13 +42,4 @@ public class ZKFlowLockTest {
 		
 		lock.get().unLock();
 	}
-
-//	@Test(dependsOnMethods={"lockTest"})
-//	public void unlockTest() throws UnLockError {
-//		logger.debug("unlockTest current Thread name:{},Thread ID:{}",Thread.currentThread().getName(),Thread.currentThread().getId());
-//		lock.set(new ZKFlowLock("lockTest"));
-//		releaseCounter.incrementAndGet();
-//		lock.get().unLock();
-//	}
-
 }
